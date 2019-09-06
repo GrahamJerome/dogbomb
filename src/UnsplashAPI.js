@@ -8,9 +8,9 @@ const unsplash = new Unsplash({
 export const getRandom = (category) =>
   unsplash.photos.getRandomPhoto({query: category})
     .then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.status === 403) {
-        throw 'You have exceeded your Unsplash API requests for this hour.'
+        throw new Error('You have exceeded your Unsplash API requests for this hour.')
       } else {
         return res.json()
       }
@@ -18,5 +18,5 @@ export const getRandom = (category) =>
     .then(data => data.urls.small)
     .catch(err => {
       console.log(err)
-      alert(err)
+      // alert(err)
     })
