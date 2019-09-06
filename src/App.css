@@ -1,24 +1,16 @@
-/*! APPLICATION STYLES.SCSS */
+/*! APP.CSS */
 
 /* APPLICATION STYLES
 // ========================================================
 //
 // Table of Contents:
 //
-//  0. Imports
 //  1. App / Main
-//  2. Buttons
-//  3. Cards
-//  4. Tables
-//  5. Typography
-//  6. Footer
-//  7. Forms
-//  8. Modals
 //  00. Misc
 //  000. Responsive / Overrides
 */
 
-/* 1. APP / MAIN
+/* 1. App / Main
 / -------------------------------------------------------- */
 
 body {
@@ -37,3 +29,9 @@ body {
   width: 490px;
   z-index: 999;
 }
+
+/* 00. Misc
+/ -------------------------------------------------------- */
+
+/* 000. Responsive Overrides
+/ -------------------------------------------------------- */
