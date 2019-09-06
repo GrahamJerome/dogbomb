@@ -6,6 +6,7 @@
 // Table of Contents:
 //
 //  1. App / Main
+//  2. Forms
 //  00. Misc
 //  000. Responsive / Overrides
 */
@@ -19,8 +20,8 @@ body {
   width: 100vw;
 }
 
-.cody-bomb {
-  background: url(/images/cody-1.png) right bottom no-repeat transparent;
+.dog-bomb {
+  background: url(https://i.imgur.com/8d7y9fp.png) right bottom no-repeat transparent;
   background-size: contain;
   bottom: 0;
   height: 508px;
@@ -28,6 +29,14 @@ body {
   right: 0;
   width: 490px;
   z-index: 999;
+}
+
+/* 2. Forms
+/ -------------------------------------------------------- */
+.dog-bomb-search {
+  position: relative;
+  z-index: 99999;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
 }
 
 /* 00. Misc
