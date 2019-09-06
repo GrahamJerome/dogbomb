@@ -1,33 +1,39 @@
-.App {
-  text-align: center;
+/*! APPLICATION STYLES.SCSS */
+
+/* APPLICATION STYLES
+// ========================================================
+//
+// Table of Contents:
+//
+//  0. Imports
+//  1. App / Main
+//  2. Buttons
+//  3. Cards
+//  4. Tables
+//  5. Typography
+//  6. Footer
+//  7. Forms
+//  8. Modals
+//  00. Misc
+//  000. Responsive / Overrides
+*/
+
+/* 1. APP / MAIN
+/ -------------------------------------------------------- */
+
+body {
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cody-bomb {
+  background: url(/images/cody-1.png) right bottom no-repeat transparent;
+  background-size: contain;
+  bottom: 0;
+  height: 508px;
+  position: absolute;
+  right: 0;
+  width: 490px;
+  z-index: 999;
 }
