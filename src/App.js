@@ -5,27 +5,30 @@ import './App.css';
 class App extends Component {
   // Sets a default values on first load.
   state = {
-    dogImageUrl: 'https://i.imgur.com/8d7y9fp.png',
+    dogImageUrl: 'https://i.imgur.com/iOvgJti.png',
     imageQuery: 'family'
   }
 
   // Fire up the first random image on component mount.
   componentDidMount() {
-    document.body.querySelector('.dog-bomb').style.backgroundImage = `url(${this.state.dogImageUrl})`
     this.updateBgImage()
+    this.updateDogImage()
   }
 
   // Use the UnsplashAPI to query the random image, return the image url,
   // and adjusts the body background image style tag.
-  updateBgImage = (query = this.state.imageQuery) => {
-    UnsplashAPI.getRandom(query)
+  updateBgImage = () => {
+    console.log('Query Unsplash API for: ' + this.state.imageQuery)
+    UnsplashAPI.getRandom(this.state.imageQuery)
       .then(imageUrl => {
         document.body.style.backgroundImage = `url(${imageUrl})`
       })
       .catch(err => console.log(err))
   }
 
-  updateDogImage = (url = this.state.dogImageUrl) => {
+  updateDogImage = () => {
+    console.log('Loading dog imageUrl: ' + this.state.dogImageUrl)
+    // the url for the dog image should be cached from the http.send() request.
     document.body.querySelector('.dog-bomb').style.backgroundImage = `url(${this.state.dogImageUrl})`
   }
 
@@ -40,9 +43,32 @@ class App extends Component {
     this.updateBgImage()
 
     let dogImageUrl = document.body.querySelector("input[name='dog-image-url']").value
-    if (dogImageUrl !== this.state.dogImageUrl) {
+    if (dogImageUrl !== this.state.dogImageUrl && this.validImageUrl(dogImageUrl)) {
       this.setState({dogImageUrl: dogImageUrl})
       this.updateDogImage()
+    }
+  }
+
+  validImageUrl = (imageUrl) => {
+    const validTypes = ['.png','.jpg','.jpeg','.gif','.tiff']
+    let ext = imageUrl.substr(imageUrl.lastIndexOf('.'))
+
+    if (!validTypes.includes(ext)) {
+      alert('dog image not valid image file type')
+      return false
+    }
+
+    let http = new XMLHttpRequest();
+
+    http.open('HEAD', imageUrl, false)
+
+    try {
+      http.send()
+    }
+    catch(err) {
+      console.log(err)
+      alert('dog image url not valid')
+      return false
     }
   }
 
@@ -56,12 +82,12 @@ class App extends Component {
       <div>
         <form className="dog-bomb-search form-inline p-3 bg-white" onSubmit={this.handleSearchSubmit}>
           <div className="form-group mb-2 mb-md-0">
-            <label for="dog-image-url">Dog Image Url</label>
-            <input type="url" className="form-control mx-3" name="dog-image-url" value={this.state.dogImageUrl} placeholder="Dog image url" />
+            <label htmlFor="dog-image-url">Dog Image Url</label>
+            <input type="url" className="form-control mx-3" name="dog-image-url" defaultValue={this.state.dogImageUrl} placeholder="Dog image url" />
           </div>
           <div className="form-group mb-2 mb-md-0">
-            <label for="image-query">Category</label>
-            <input type="text" className="form-control mx-3" name="image-query" value={this.state.imageQuery} placeholder="Image category" />
+            <label htmlFor="image-query">Category</label>
+            <input type="text" className="form-control mx-3" name="image-query" defaultValue={this.state.imageQuery} placeholder="Image category" />
           </div>
           <button type="submit" className="btn btn-primary mb-2">Bombs away!</button>
         </form>

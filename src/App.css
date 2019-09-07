@@ -21,7 +21,7 @@ body {
 }
 
 .dog-bomb {
-  background: url(https://i.imgur.com/8d7y9fp.png) right bottom no-repeat transparent;
+  background: right bottom no-repeat transparent;
   background-size: contain;
   bottom: 0;
   height: 508px;
