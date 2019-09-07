@@ -11,8 +11,10 @@ class App extends Component {
 
   // Fire up the first random image on component mount.
   componentDidMount() {
-    this.updateBgImage()
-    this.updateDogImage()
+    document.addEventListener("DOMContentLoaded", () => {
+      this.updateBgImage()
+      this.updateDogImage()
+    })
   }
 
   // Use the UnsplashAPI to query the random image, return the image url,
@@ -27,6 +29,7 @@ class App extends Component {
   }
 
   updateDogImage = () => {
+    console.log('@@@' + document.getElementById('dog-bomb'))
     console.log('Loading dog imageUrl: ' + this.state.dogImageUrl)
     // the url for the dog image should be cached from the http.send() request.
     document.body.querySelector('.dog-bomb').style.backgroundImage = `url(${this.state.dogImageUrl})`
@@ -77,7 +80,7 @@ class App extends Component {
     this.setState({imageSearchValue: event.target.value})
   }
 
-  render () {
+  render() {
     return (
       <div>
         <form className="dog-bomb-search form-inline p-3 bg-white" onSubmit={this.handleSearchSubmit}>
