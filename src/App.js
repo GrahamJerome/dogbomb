@@ -6,7 +6,7 @@ class App extends Component {
   // Sets a default values on first load.
   state = {
     dogImageUrl: 'https://i.imgur.com/iOvgJti.png',
-    imageQuery: 'family'
+    imageQuery: 'wedding'
   }
 
   // Fire up the first random image on component mount.
