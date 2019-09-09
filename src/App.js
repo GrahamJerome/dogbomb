@@ -11,6 +11,7 @@ class App extends Component {
 
   // Fire up the first random image on component mount.
   componentDidMount() {
+    console.log('componentDidMount')
     document.addEventListener("DOMContentLoaded", () => {
       this.updateBgImage()
       this.updateDogImage()
@@ -29,7 +30,6 @@ class App extends Component {
   }
 
   updateDogImage = () => {
-    console.log('@@@' + document.getElementById('dog-bomb'))
     console.log('Loading dog imageUrl: ' + this.state.dogImageUrl)
     // the url for the dog image should be cached from the http.send() request.
     document.body.querySelector('.dog-bomb').style.backgroundImage = `url(${this.state.dogImageUrl})`
@@ -39,6 +39,7 @@ class App extends Component {
   // I have allowed the same query to be searched multiple times as it
   // will probably produce different results each query.
   handleSearchSubmit = (event) => {
+    console.log('handleSearchSubmit')
     event.preventDefault();
 
     let imageQuery = document.body.querySelector("input[name='image-query']").value
@@ -73,11 +74,6 @@ class App extends Component {
       alert('dog image url not valid')
       return false
     }
-  }
-
-  // Update the imageQuery state value as the user types.
-  handleQueryChange = (event) => {
-    this.setState({imageSearchValue: event.target.value})
   }
 
   render() {
