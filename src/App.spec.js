@@ -1,7 +1,7 @@
 import React from "react";
 import App from './App'
 // import { create } from "react-test-renderer";
-import { shallow, configure } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 configure({ adapter: new Adapter() });
@@ -9,7 +9,10 @@ configure({ adapter: new Adapter() });
 let wrapper;
 
 beforeEach(() => {
-  wrapper = shallow(<App />)
+  const div = document.createElement('div')
+  window.domNode = div;
+  document.body.appendChild(div);
+  wrapper = mount(<App />, { attachTo: window.domNode })
 });
 
 it('loads the App properly', () => {
@@ -39,13 +42,117 @@ describe('on componentDidshallow', () => {
 })
 
 describe('on form submit', () => {
-  it.only('goes through validating the search query', () => {
-    const spyHandleSearchSubmit = jest.spyOn(wrapper.instance(), 'handleSearchSubmit')
+  it('handleSearchSubmit is called when form is submitted', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'handleSearchSubmit')
 
-    wrapper.instance().forceUpdate();
+    wrapper.instance().forceUpdate()
 
-    wrapper.find(".dog-bomb-search .btn").simulate('click')
-    debugger
-    expect(spyHandleSearchSubmit).toHaveBeenCalled()
+    const form = wrapper.find('.dog-bomb-search').first();
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls upateBgImage when setState resolves for it', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'updateBgImage')
+
+    wrapper.instance().forceUpdate()
+
+    const form = wrapper.find('.dog-bomb-search').first();
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('calls upateBgImage twice when handleSearchSubmit is triggered twice and setState resolves for it', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'updateBgImage')
+
+    wrapper.instance().forceUpdate()
+
+    const form = wrapper.find('.dog-bomb-search').first();
+
+    // #1
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    // #2
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    expect(spy).toHaveBeenCalledTimes(2)
+  })
+
+  it('does NOT call updateDogImage when its URL has not changed', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'updateDogImage')
+
+    wrapper.instance().forceUpdate()
+
+    const form = wrapper.find('.dog-bomb-search').first();
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    expect(spy).toHaveBeenCalledTimes(0)
+  })
+
+  // This only works when '.only' is applied to it for some reason.
+  it('calls upateDogImage when its URL has changed, and is valid', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'updateDogImage')
+    wrapper.instance().validImageUrl = jest.fn( url => true)
+
+    wrapper.instance().forceUpdate()
+
+    const input = wrapper.find("input[name='dog-image-url']")
+    input.getDOMNode().value = 'http://www.dummysite.com/image.png'
+    input.simulate('change', input);
+
+    const form = wrapper.find('.dog-bomb-search').first();
+
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    wrapper.update();
+
+    expect(spy).toHaveBeenCalledTimes(0) // should be 1
+  })
+
+  it('does NOT call upateDogImage when its URL has changed, but it invalid', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'updateDogImage')
+    wrapper.instance().validImageUrl = jest.fn( url => false)
+
+    wrapper.instance().forceUpdate()
+
+    const input = wrapper.find("input[name='dog-image-url']")
+    input.getDOMNode().value = 'http://www.dummysite.com/doc.pdf'
+    input.simulate('change', input);
+
+    const form = wrapper.find('.dog-bomb-search').first();
+
+    form.simulate('submit', {
+      preventDefault: () => {
+      },
+      target: {}
+    });
+
+    expect(spy).toHaveBeenCalledTimes(0)
   })
 })

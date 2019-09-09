@@ -9,9 +9,17 @@ class App extends Component {
     imageQuery: 'wedding'
   }
 
+  constructor(props) {
+    super(props);
+
+    this.updateBgImage = this.updateBgImage.bind(this);
+    this.updateDogImage = this.updateDogImage.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.validImageUrl = this.validImageUrl.bind(this);
+ }
+
   // Fire up the first random image on component mount.
   componentDidMount() {
-    console.log('componentDidMount')
     document.addEventListener("DOMContentLoaded", () => {
       this.updateBgImage()
       this.updateDogImage()
@@ -20,8 +28,7 @@ class App extends Component {
 
   // Use the UnsplashAPI to query the random image, return the image url,
   // and adjusts the body background image style tag.
-  updateBgImage = () => {
-    console.log('Query Unsplash API for: ' + this.state.imageQuery)
+  updateBgImage() {
     UnsplashAPI.getRandom(this.state.imageQuery)
       .then(imageUrl => {
         document.body.style.backgroundImage = `url(${imageUrl})`
@@ -29,8 +36,7 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
-  updateDogImage = () => {
-    console.log('Loading dog imageUrl: ' + this.state.dogImageUrl)
+  updateDogImage() {
     // the url for the dog image should be cached from the http.send() request.
     document.body.querySelector('.dog-bomb').style.backgroundImage = `url(${this.state.dogImageUrl})`
   }
@@ -38,22 +44,19 @@ class App extends Component {
   // When a search is triggered, it triggers an update of the background and dog image.
   // I have allowed the same query to be searched multiple times as it
   // will probably produce different results each query.
-  handleSearchSubmit = (event) => {
-    console.log('handleSearchSubmit')
-    event.preventDefault();
+  handleSearchSubmit(event) {
+    event.preventDefault()
 
     let imageQuery = document.body.querySelector("input[name='image-query']").value
-    this.setState({imageQuery: imageQuery})
-    this.updateBgImage()
+    this.setState({imageQuery: imageQuery}, () => { this.updateBgImage() })
 
     let dogImageUrl = document.body.querySelector("input[name='dog-image-url']").value
     if (dogImageUrl !== this.state.dogImageUrl && this.validImageUrl(dogImageUrl)) {
-      this.setState({dogImageUrl: dogImageUrl})
-      this.updateDogImage()
+      this.setState({dogImageUrl: dogImageUrl}, () => { this.updateDogImage() })
     }
   }
 
-  validImageUrl = (imageUrl) => {
+  validImageUrl(imageUrl) {
     const validTypes = ['.png','.jpg','.jpeg','.gif','.tiff']
     let ext = imageUrl.substr(imageUrl.lastIndexOf('.'))
 
@@ -68,6 +71,7 @@ class App extends Component {
 
     try {
       http.send()
+      return true
     }
     catch(err) {
       console.log(err)
