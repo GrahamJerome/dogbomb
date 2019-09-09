@@ -17,4 +17,6 @@ Run `npm test` to run test suite.
 
 I've never written React tests before, and there is a test that checks to see that the dog image updates with a valid url that's different than the original. When the test is run with `.only` it works fine, but in the full suite doesn't. This is probably some small Jest `async` issue with `setStates` callback not having been called yet.
 
+Normally I'd never check in keys for my API into a github repo. This is just so it's easier to run locally without setting env vars.
+
 Enjoy!
