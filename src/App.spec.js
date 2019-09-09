@@ -1,6 +1,5 @@
 import React from "react";
 import App from './App'
-// import { create } from "react-test-renderer";
 import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
